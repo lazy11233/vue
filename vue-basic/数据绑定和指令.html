@@ -8,16 +8,29 @@
 </head>
 <body>
     <div id="app">
-        {{msg}}        
+        {{msg}}        <!--双花括号，直接显示vue的data中绑定的数据-->
+        {{8==9}}<br>    <!--进行简单的运算-->
+        {{6>3?a:msg}} <!--进行三目运算-->
+        <br>
+        <!-- {{if(6>3){}}} 注意，文本插值的形式，其中不能书写表达式-->
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
         var app = new Vue({
-            el: '#app',
-            data: {
-                msg: "Hello World!"
-            }
-        })
+            el: '#app', //element,用于指定页面中已经存在的DOM元素，挂载到DOM中，也可以是CSS选择器。
+            data: {     //可以声明应用内需要双向绑定的数据。
+                msg: "Hello World!",
+                a: 2
+            },
+            created() {
+            //    alert("vue实例，创建完成，还未挂载到DOM上");
+            },
+            mounted() {
+                // alert("vue实例已经挂载到DOM上");
+            },
+        });
+        console.log(app.$el); //访问app.$el属性
+        console.log(app.$data.a);//访问app中的data属性
     </script>
 </body>
 </html>

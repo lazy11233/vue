@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{date | formatDate}}
+
+        <br>
+        v-text:
+        <span v-text="apple"></span><!--v-text和{{}}作用一样-->
+        <br>
+        v-html:
+        <div v-html="bannal"></div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        //在页面中实时显示当前时间
+        function plusDate(val) {
+            return val < 10 ? '0' + val : '' + val;
+        }
+        var app = new Vue({
+            el: '#app',
+            data: {
+                date: new Date(),
+                apple: "苹果",
+                bannal: '<span style="color:yellowgreen">香蕉</span>'
+            },
+            mounted() {
+                var _this = this; //this代表的就是Vue对象本身。
+                //setIntervval
+                _this.timer = setInterval(() => {
+                    _this.date = new Date();
+                    _this.$data.date = new Date();
+                }, 1000)
+            },
+            beforeDestroy() { //这个函数何时触发？
+
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
+            },
+            filters: {
+                formatDate(date) {
+                    var rlt = new Date(date);
+                    var y = rlt.getFullYear();
+                    var m = plusDate(rlt.getMonth() + 1);
+                    var d = plusDate(rlt.getDate());
+                    var h = rlt.getHours();
+                    var min = rlt.getMinutes();
+                    var s = rlt.getSeconds();
+                    rlt = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+                    return rlt;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

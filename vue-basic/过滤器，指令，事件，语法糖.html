@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        .translate {
+            color: red;
+        }
+        .btn {
+            padding: 5px 10px;
+            background-color: #bfa;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            border: 1px solid #aaa;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,10 +28,17 @@
 
         <br>
         v-text:
-        <span v-text="apple"></span><!--v-text和{{}}作用一样-->
+        <span v-text="apple"></span><!--v-text和{{}}作用一样,也就是原生的innerText-->
         <br>
         v-html:
-        <div v-html="bannal"></div>
+        <div v-html="bannal"></div><!--相当于innerHTML-->
+        <hr>
+        v-bind:绑定动态变化的属性
+        <div v-bind:class="className">translate</div>
+        <hr>
+        v-on:绑定事件监听器
+        <span class="btn" @click="clickMe">点我</span>
+        <span>点了<b>{{countNum}}</b>下</span>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
@@ -30,7 +51,9 @@
             data: {
                 date: new Date(),
                 apple: "苹果",
-                bannal: '<span style="color:yellowgreen">香蕉</span>'
+                bannal: '<span style="color:yellowgreen">香蕉</span>',
+                className: 'translate',
+                countNum: 0
             },
             mounted() {
                 var _this = this; //this代表的就是Vue对象本身。
@@ -57,6 +80,11 @@
                     var s = rlt.getSeconds();
                     rlt = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
                     return rlt;
+                }
+            },
+            methods: {
+                clickMe() {
+                    this.countNum++;
                 }
             }
         });

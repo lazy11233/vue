@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        {{text}}
+        <hr>
+        <div> 逻辑过长就会变得臃肿，难以维护，所以遇到复杂的逻辑时，应当使用计算属性。</div>
+        {{text.split(',').reverse().join(',')}}
+        -----下面是用计算属性得到的。<br>
+        {{reverseText}}
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                text: '123,456,789'
+            },
+            methods: {
+
+            },
+            //定义计算属性
+            computed: {
+                reverseText: function() {
+                    return this.text.split(',').reverse().join(',');
+                }
+            }   
+        })
+    </script>
+</body>
+
+</html>

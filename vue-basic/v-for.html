@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for</title>
+</head>
+
+<body>
+
+    <div id="app">
+        v-for用法<br> 1.遍历数组，多个对象
+        <br>
+        <ul>
+            <li v-for="(item,index) in vuemethods">
+                {{item.name}} + {{index}}
+            </li>
+        </ul>
+        带索引的写法：第一个变量代表item，第二个变量是index。
+        <br> 遍历一个对象的多个属性(v k i)
+        <span v-for="(value,key,index) in nvshen">{{value}} 
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                //每个对象对应一个li。
+                vuemethods: [
+                    { name: '多思考' },
+                    { name: '多练习' },
+                    { name: 'HelloWorld!' },
+                ],
+                nvshen: {
+                    bust: 178,
+                    waist: 100,
+                    hip: 120
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

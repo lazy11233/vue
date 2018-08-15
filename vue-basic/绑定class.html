@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定class</title>
+    <style>
+        .box1 {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #bfa;
+            outline: none;
+            padding: 5px 10px;
+        }
+        .box1:hover {
+            box-shadow: 0 0 0 4px #aaa;  
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        绑定class对象语法：
+        <button :class="{box1:isActive}" @click="changColor">对象</button>
+        <hr>
+        绑定class数组语法：
+        <button :class="[a,b]">数组</button>
+        <hr>
+        数组和对象混用：
+        <button :class="[{'box1': true},b]">混用</button>
+    </div>
+        <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+        <script>    
+        //需求：点击一个按钮，切换背景颜色
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    isActive: true,
+                    a: 'box1',
+                    b: 'box2'
+                },
+                methods: {
+                    changColor() {
+                        this.isActive = !this.isActive;
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

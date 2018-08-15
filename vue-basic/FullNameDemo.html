@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FullName</title>
+</head>
+
+<body>
+    <div id="app">
+        姓：
+        <input type="text" v-model:value="firstName">
+        <br> 名：
+        <input type="text" v-model:value="lastName">
+        <br>
+        <hr> 全名：
+        <div>
+            通过watch监测fullname： {{fullName}}
+        </div>
+        <div>
+            通过computed计算fullName：{{fullText}}
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                firstName: 'zhang',
+                lastName: 'san',
+                fullName: 'zhangsan'
+            },
+            watch: {
+                firstName: function (newVal, oldVal) {
+                    console.log("gaibianla ")
+                    this.fullName = newVal + this.lastName;
+                },
+                lastName: function (newVal, oldVal) {
+                    this.fullName = this.firstName+newVal;
+                }
+            },
+            computed: {
+                fullText: function () {
+                    return this.firstName + this.lastName;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

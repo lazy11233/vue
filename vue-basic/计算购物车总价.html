@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-
 <body>
     <div id="app">
-            {{totalPrice}}
+        <input type="text" v-model:value="pr">
+        <hr> {{totalPrice}}
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
+                pr: 0,
                 //第一个购物车
                 package1: [
-                    { name: 'iPhone', price: 6999, count: 2 },
+                    { name: 'iPhone', price: 22, count: 2 },
                     { name: 'iPad', price: 1999, count: 1 }
                 ],
                 //第二个购物车
@@ -29,19 +29,20 @@
                 ]
             },
             computed: {
-                totalPrice: function() {
+                //每个计算属性都有一个getter和setter。
+                //如果计算属性直接接一个function，默认就是getter函数。
+                totalPrice: function () {
                     var total = 0;
-                    for(var i = 0; i< this.package1.length; i++) {
+                    for (var i = 0; i < this.package1.length; i++) {
                         total += this.package1[i].price * this.package1[i].count;
                     }
-                    for(var i = 0; i< this.package2.length; i++) {
+                    for (var i = 0; i < this.package2.length; i++) {
                         total += this.package2[i].price * this.package2[i].count;
                     }
-                    return total;
+                    return total + parseInt(this.pr);
                 }
             }
         });
     </script>
 </body>
-
 </html>

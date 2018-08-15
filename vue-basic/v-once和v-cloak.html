@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue基本指令</title>
+    <style>
+        [v-cloak] {
+            display: none;/* 解决页面闪动问题，比如有时会看到页面源码 */
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+        v-cloak解决初始化慢导致的页面闪动
+        <div>{{msg}}</div>
+        v-once定义元素或者组件只渲染一次，onceData后续再做修改都不重新渲染
+        <div v-once>{{onceData}}</div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg:'村里有个菇凉叫小芳',
+                onceData: '长得美丽又善良'
+            }
+        });
+    </script> 
+</body>
+</html>

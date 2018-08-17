@@ -22,6 +22,9 @@
         <div v-for="study in arr">
             {{study}}
         </div>
+        <div>
+            {{matchoo}}
+        </div>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
@@ -50,8 +53,15 @@
                 },
                 //改变数组的指定项：
                 changOne() {
-                    this.arr[0] = 'kaisi '
+                    Vue.set(app.arr,1,'filter')
                 }                
+            },
+            computed: {
+                matchoo: function() {
+                    return this.arr.filter(function(item) {
+                        return item.match(/oo/g);
+                    })
+                }
             }
         })
     </script>

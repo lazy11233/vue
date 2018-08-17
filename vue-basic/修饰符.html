@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修饰符</title>
+    <style>
+        #box {
+            width:100px;
+            height: 100px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        stop用法：阻止事件传播
+        <div id="box" @click.self="divClick">
+            <button @click="btnCLick">点我</button>
+        </div>
+        <hr>
+        prevent用法：阻止默认事件
+        <form action="#"  @submit.prevent="handle">
+            <input type="submit" value="提交表单">
+        </form>
+        <hr>
+        <button @click.once="addCount">点击了{{count}}次</button>
+        <hr>
+        <button @keyup.13="submit">回车有效</button>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            methods: {
+                //向上冒泡，先出现btn click再出现div click。
+                divClick() {
+                    alert("div click");
+                },
+                btnCLick() {
+                    alert("btn click");
+                },
+                handle() {
+                    alert("提交表单")
+                },
+                addCount() {
+                    this.count ++;
+                },
+                submit() {
+                    alert("submit");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

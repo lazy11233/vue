@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        input和textarea的用法
+        <input type="text" v-model='value'>
+        {{value}}
+        <hr>
+        <textarea name="" id="" cols="30" rows="10" v-model="value"></textarea>
+        <hr>
+        单选按钮：
+        <input id="male-radio" type="radio" name="sex" v-model='male' value='男人'><label for="male-radio">男</label>
+        <input id="female-radio" type="radio" name="sex" v-model='male' value='女人'><label for="female-radio">female-radio</label>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                value: '我的天',
+                msg: '',
+                male: '女人',
+                // femal: '女人'
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>方法与事件</title>
+</head>
+<body>
+    <div id="app">
+        点击次数：{{count}}
+        <button @click="handle() ">点击我+1</button>
+        <button @click="handle(8)">点击我+8</button>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            methods: {
+                //定义的方法中带有参数，在调用时需要加上括号（因为默认传入原生事件对象）。
+                handle(count) {
+                    count = count || 1;
+                    this.count += count;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -27,20 +27,44 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        这是我的app.
+        您现在的银行卡余额是{{total}}
+        <my-component @change="handletotal"></my-component>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
+        //需求：通过加号和减号按钮来给父组件传递数据
         Vue.component('my-component', {
-            template: '<div></div>'
+            template: '<div>\
+            <button @click="handleincrease"> +1000 </button>\
+            <button @click="handlereduce"> -1000 </button>\
+            {{count}}\
+            </div>',
+            data: function() {
+                return {
+                    count: 2000
+                }
+            },
+            methods: {
+                handleincrease() {
+                    this.count += 1000;
+                    this.$emit('change',this.count);
+                },
+                handlereduce() {
+                    this.count -= 1000;
+                    this.$emit('change',this.count);
+                }
+            }
         })
         var app = new Vue({
             el: '#app',
             data: {
-
+                total: 2000,
             },
             methods: {
-
+                handletotal(value) {
+                    //形参value就是传递过来的数据。
+                    this.total = value;
+                }
             }
         })
     </script>

@@ -9,35 +9,37 @@
         [v-cloak] {
             display: none;
         }
-        body {
-            background: #eee;
-        }
-        #app {
-            border: 2px solid black;
-            width: 600px;
-            margin: 0 auto;
-            height: 300px;
-            font-weight: 700;
-            font-size: 16px;
-            padding: 3px;
-            margin-top: 100px;
-            background-color: #bfa;
-        }
     </style>
 </head>
 <body>
     <div id="app" v-cloak>
         这是我的app.
+        <my-component myMsg="lulala"></my-component>
+        <type-component :a="a" :b="b" :c="c"></type-component>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        Vue.component('my-component', {
-            template: '<div></div>'
+        Vue.component('myComponent', {
+            props:[''],
+            template: '<div>我的app</div>'
+        })
+        Vue.component('type-component', {
+            props:{
+                a: Number,
+                b: [String,Number],
+                c: {
+                    type: Number,
+                    required: true
+                }
+            },
+            template: '<div>tem{{a}}{{b}}</div>'
         })
         var app = new Vue({
             el: '#app',
             data: {
-
+                a: 1,
+                b: "666",
+                c: 4
             },
             methods: {
 

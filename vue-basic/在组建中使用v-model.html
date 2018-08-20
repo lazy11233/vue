@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        body {
+            background: #eee;
+        }
+        #app {
+            border: 2px solid black;
+            width: 600px;
+            margin: 0 auto;
+            height: 300px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin-top: 100px;
+            background-color: #bfa;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        您现在的银行卡余额是{{total}}
+        <!-- <my-component @change="handletotal"></my-component> -->
+        <my-component v-model="total"></my-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        //需求：通过加号和减号按钮来给父组件传递数据
+        Vue.component('my-component', {
+            template: '<div>\
+            <button @click="handleincrease"> +1000 </button>\
+            {{count}}\
+            </div>',
+            data: function() {
+                return {
+                    count: 2000
+                }
+            },
+            methods: {
+                handleincrease() {
+                    this.count += 1000;
+                    // this.$emit('change',this.count);
+                    this.$emit('input',this.count);
+                },
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total: 2000,
+            },
+            methods: {
+                // handletotal(value) {
+                //     //形参value就是传递过来的数据。
+                //     this.total = value;
+                // }
+            }
+        })
+    </script>
+</body>
+</html>

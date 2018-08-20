@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件通信</title>
+</head>
+<body>
+    <div id="app">
+        <h5>我是父组件</h5>
+        <my-component msg="我是来自父组件的内容"></my-component>
+        <h2>使用v-bind动态绑定子组件的props</h2>
+        <input type="text" v-model="parentMsg">{{parentMsg}}
+        <bind-component v-bind:xx='parentMsg'></bind-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+       var app = new Vue({
+           el: '#app',
+           data: {
+               parentMsg: '今天月亮真圆'
+           },
+           components: {
+               'my-component': {
+                   props: ['msg'],
+                   template: '<div>{{msg}}</div>'
+               },
+               'bind-component': {
+                   props: ['xx'],
+                   template: '<div>{{xx}}</div>'
+               }
+           }
+       }) 
+    </script>
+</body>
+</html>

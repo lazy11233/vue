@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        这是我的app.
+        <my-component msg="我是传递给子组件的数据"></my-component>
+        <hr>
+        <!-- 需求：通过input中输入的数据直接改变div的宽度 -->
+        <input type="text" v-model="width">
+        <hr>
+        <width-component :width="width"></width-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<div>{{count}}</div>',
+            props: ['msg'],
+            data: function() {
+                return {
+                    //props传递给子组件的数据可以通过this.xxx来获取。
+                    count: this.msg
+                }
+            }
+        })
+        Vue.component('width-component', {
+            template: '<div :style="c_width"></div>',
+            props: ['width'],
+            data: function() {
+                return {
+
+                }
+            },
+            computed: {
+                c_width: function()  {
+                    
+                    return {
+                        width: this.width + 'px',
+                        backgroundColor: 'red',
+                        height: '300px'
+                    };
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                width: 100,
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>

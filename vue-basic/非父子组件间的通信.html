@@ -61,8 +61,10 @@
             },
             created() {
                 //A组件在实例创建之后就监听事件
+                var _this = this;
                 this.$root.bus.$on('lala',function(value){
-                    conosle.log(value);
+                    console.log(value);
+                    _this.msg = value;
                 })
             }
         });

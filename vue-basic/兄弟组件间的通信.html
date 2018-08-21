@@ -32,17 +32,43 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        这是我的app.
+        <component-a></component-a>
+        <component-b></component-b>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        Vue.component('my-component', {
-            template: '<div></div>'
+        Vue.component('component-a', {
+            template: '<div><button @click="handle">点我传递数据</button>{{aaa}}</div>',
+            methods: {
+                handle() {
+                    this.$root.bus.$emit('lala',this.aaa);
+                }
+            },
+            data() {
+                return {
+                    aaa: '这是a中的信息'
+                }
+            }
+        })
+        Vue.component('component-b', {
+            template: '<div>{{bbb}}</div>',
+            data() {
+                return {
+                    bbb: '我是b中的信息'
+                }
+            },
+            created() {
+                var _this = this;
+                this.$root.bus.$on('lala',function(value){
+                    _this.bbb += value;
+                })
+            }
+
         })
         var app = new Vue({
             el: '#app',
             data: {
-
+                bus: new Vue(),
             },
             methods: {
 

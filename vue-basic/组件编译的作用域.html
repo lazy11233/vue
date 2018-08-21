@@ -13,36 +13,38 @@
             background: #eee;
         }
         #app {
-            width: 600px;
-            height: 300px;
             border: 2px solid black;
-            border-radius: 4px;
+            width: 600px;
             margin: 0 auto;
+            height: 300px;
             font-weight: 700;
             font-size: 16px;
             padding: 3px;
             margin-top: 100px;
             background-color: #bfa;
         }
-        * {
-            padding: 0;
-            margin: 0;
-        }
     </style>
 </head>
 <body>
     <div id="app" v-cloak>
         这是我的app.
+        <my-component v-show="true">{{msg}}</my-component>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
         Vue.component('my-component', {
-            template: '<div></div>'
+            template: '<div v-show="childshow">{{msg}}</div>',
+            data: function () {
+                return {
+                    msg: '我是子组件中的内容',
+                    childshow: false
+                }
+            }
         })
         var app = new Vue({
             el: '#app',
             data: {
-
+                msg: '我是父组件的内容'
             },
             methods: {
 

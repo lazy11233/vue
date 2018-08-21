@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        body {
+            background: #eee;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        #app {
+            border: 2px solid black;
+            width: 600px;
+            margin: 0 auto;
+            height: 300px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin-top: 100px;
+            background-color: #bfa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <my-component>
+            <p>{{msg}}</p>
+        </my-component>
+        <hr>
+        <name-component>
+            <h3 slot="header">标特</h3>
+            <p>正文内容</p>
+            <p>正文内容</p>
+            <p slot="footer">底部信息</p>
+        </name-component>
+       
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<div>\
+                            <slot>\
+                                如果父组件没有插入内容，我就作为默认出现。\
+                            </slot>\
+                        </div>',
+
+        })
+        Vue.component('name-component', {
+            template: '<div>\
+                    <div class="header">\
+            <slot name="header"></slot>\
+        </div>\
+                <div class="container">\
+                        <slot></slot>\
+                </div>\
+        <div class="footer">\
+                <slot name="footer"></slot>\
+        </div>\
+                        </div>',
+
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'xxxxs'
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

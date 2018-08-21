@@ -13,11 +13,11 @@
             background: #eee;
         }
         #app {
-            width: 600px;
-            height: 300px;
             border: 2px solid black;
             border-radius: 4px;
+            width: 600px;
             margin: 0 auto;
+            height: 600px;
             font-weight: 700;
             font-size: 16px;
             padding: 3px;
@@ -32,20 +32,38 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        这是我的app.
+        <button @click="oneView('A')">A</button>
+        <button @click="oneView('B')">B</button>
+        <button @click="oneView('C')">C</button>
+        <button @click="oneView('D')">D</button>
+        <hr>
+        <component :is="thisView"></component>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        Vue.component('my-component', {
-            template: '<div></div>'
+        //需求:点击按钮显示对应的组件试图
+        Vue.component('compA', {
+            template: '<div>离离原上草</div>'
+        })
+        Vue.component('compB', {
+            template: '<div>一岁一枯荣</div>'
+        })
+        Vue.component('compC', {
+            template: '<div>野火烧不尽</div>'
+        })
+        Vue.component('compD', {
+            template: '<div>春风吹又生</div>'
         })
         var app = new Vue({
             el: '#app',
             data: {
-
+                thisView: 'compA',
             },
             methods: {
-
+                oneView(tag) {
+                    console.log(tag);
+                    this.thisView = 'comp' + tag;
+                }
             }
         })
     </script>

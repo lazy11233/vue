@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        body {
+            background: #eee;
+        }
+        #app {
+            border: 2px solid black;
+            width: 600px;
+            margin: 0 auto;
+            height: 300px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin-top: 100px;
+            background-color: #bfa;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        这是我的app.{{msg}}
+        <my-component1 ref="a"></my-component1>
+        <my-component2 ref="b"></my-component2>
+        <hr>
+        <child-component ref="c"></child-component>
+        <hr>
+        <button @click="getChildData">我是父组件的按钮，要拿到子组件的内容</button>
+        ------{{fromchild}}-----
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        Vue.component('my-component1', {
+            template: '<div><button @click="handle">点击我，传递给B</button></div>',
+            data: function() {
+                return {
+                    aaa: '我是来自A组件中的内容',
+                    msg:'我是A中的Msg'
+                }
+            },
+            methods: {
+                handle() {
+                    this.$root.bus.$emit('lala',this.aaa);
+                }
+            }
+        })
+        Vue.component('my-component2', {
+            template: '<div>{{msg}}</div>',
+            data:function () {
+                return {
+                    msg: '我是B中的Msg'   
+                }  
+            },
+            created() {
+                //A组件在实例创建之后就监听事件
+                this.$root.bus.$on('lala',function(value){
+                    conosle.log(value);
+                })
+            }
+        });
+        Vue.component('child-component',{
+            template:'<div><button @click="setFatherData">点我修改父组件中的数据</button></div>',
+            data: function() {
+                return {
+                    msg:'我是C中的Msg'
+                }
+            },
+            methods: {
+                setFatherData() {
+                    this.$parent.msg = '数据修改成功'
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                //bus中介
+                bus: new Vue(),
+                msg:'',
+                fromchild: '还未拿到数据'
+            },
+            methods: {
+                getChildData() {//获取子组件中的内容。
+                    this.fromchild = this.$refs.b.msg;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

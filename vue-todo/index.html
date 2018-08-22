@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue实现Todo List</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        body {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <input type="text" placeholder="What needs to be done?" @keyup.enter="addTodo($event.target)" ref="currentInput">
+        <ul>
+            <li v-for="(todo,index) in todoList" @mouseover="todo.isActive = true" @mouseleave="todo.isActive = false">
+                <input type="checkbox" v-model="todo.isChecked">
+                <div @dblclick="toEdit(todo)">{{todo.value}}</div>
+                <span v-show="todo.isActive" @click="removeTodo(index)">X</span>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                todoList: [],
+                dataStatus: ['All', 'Active', 'Completed'],
+                dataStatusIndex: 0,
+                whichShow: true,
+                defaultShow: true
+            },
+            methods: {
+                addTodo(e) {
+                    var val = e.value;
+                    if (val === '') return;
+                    this.todoList = this.todoList.concat({
+                        value: val,
+                        isEditing: false,
+                        isActive: false,
+                        isChecked: false,
+                    })
+                    this.$refs.currentInput.value = '';
+                },
+                removeTodo(idx) {
+                    this.todoList.splice(idx, 1);
+                },
+                toEdit(item) {
+                    console.log(item.isEditing);
+                    item.isEditing = true;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ch">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,29 +32,17 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <child-component :level="level">
-            我是蜡笔小新
-        </child-component>
+        这是我的app.
     </div>
-    
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        /*使用vue组件定义*/
-        // Vue.component('child-component', {
-        //     template: '#hdom',
-        //     props:['level']
-        // })
-        //使用render函数进行定义
-        Vue.component('child-component',{
-            render: function (createElement) {
-                return createElement('h' + this.level,this.$slots.default);
-            },
-            props: ['level']
+        Vue.component('my-component', {
+            template: '<div></div>'
         })
         var app = new Vue({
             el: '#app',
             data: {
-                level: 6
+
             },
             methods: {
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ch">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,29 +32,42 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <child-component :level="level">
-            我是蜡笔小新
-        </child-component>
+        <my-component></my-component>
     </div>
-    
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        /*使用vue组件定义*/
-        // Vue.component('child-component', {
-        //     template: '#hdom',
-        //     props:['level']
-        // })
-        //使用render函数进行定义
-        Vue.component('child-component',{
+        Vue.component('my-component', {
+            //createElement的第二个参数是可选的。
             render: function (createElement) {
-                return createElement('h' + this.level,this.$slots.default);
-            },
-            props: ['level']
+                //第二个参数是数据对象,只能是Object
+                return createElement({
+                    template: '<div>我的天</div>'
+                },{
+                    class: {
+                        foo: true,
+                        baz: true
+                    },
+                    style: {
+                        color:' red',
+                        backgroundColor: 'pink',
+                        width: '200px',
+                        height: '200px',
+                    },
+                    //正常的HTML特性,比如id，src等。
+                    attr: {
+                    },
+                    //用来写原生的DOM属性的。
+                    props: {
+                        innerHTML:'<h5>我是props</h5>'
+                    }
+                })
+                
+            }
         })
         var app = new Vue({
             el: '#app',
             data: {
-                level: 6
+
             },
             methods: {
 

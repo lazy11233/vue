@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ch">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,29 +32,31 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <child-component :level="level">
-            我是蜡笔小新
-        </child-component>
+        <child-component></child-component>
     </div>
-    
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
     <script>
-        /*使用vue组件定义*/
-        // Vue.component('child-component', {
-        //     template: '#hdom',
-        //     props:['level']
-        // })
-        //使用render函数进行定义
         Vue.component('child-component',{
-            render: function (createElement) {
-                return createElement('h' + this.level,this.$slots.default);
-            },
-            props: ['level']
+            render: function(createElement) {
+                //在render函数的方法中，参数必须是createElement
+                //createElement的第一个参数可以是 String| Object | Function
+                /* 1. return createElement('h1') */
+                /* 2.Object---一个含有数据选项的对象 */
+                // return createElement({
+                //     template: '<div>锄禾日当午</div>'
+                // })
+                /* 3.Function ----返回含有数据选项的对象*/
+                return (() => {
+                    return{
+                        template: '<div>汗滴禾下土</div>'
+                    }
+                })();
+            }
         })
         var app = new Vue({
             el: '#app',
             data: {
-                level: 6
+
             },
             methods: {
 

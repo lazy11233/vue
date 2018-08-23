@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父组件专递信息给子组件</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        body {
+            background: #eee;
+        }
+        #app {
+            width: 600px;
+            height: 300px;
+            border: 2px solid black;
+            border-radius: 4px;
+            margin: 0 auto;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin-top: 100px;
+            background-color: #bfa;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        父组件内容
+        <my-component :msg="fuMsg">
+
+        </my-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<div>{{msg}}</div>',
+            props: ['msg']
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                fuMsg: '我是来自父组件的内容'
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>

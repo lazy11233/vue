@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        body {
+            background: #eee;
+        }
+        #app {
+            width: 600px;
+            height: 300px;
+            border: 2px solid black;
+            border-radius: 4px;
+            margin: 0 auto;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin-top: 100px;
+            background-color: #bfa;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <a-component></a-component>
+        <hr>
+        <b-component></b-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        Vue.component('a-component', {
+            template: '<div>{{aa}}<button @click="eve">传递数据给B</button></div>',
+            data: function() {
+                return {
+                    aa: '我是来自A组件的信息。'
+                }
+            },
+            methods: {
+                eve() {
+                    this.$root.bus.$emit('li',this.aa);
+                }
+            }
+        });
+        Vue.component('b-component', {
+            template: '<div>{{bb}}</div>',
+            data: function () {
+                return {
+                    bb: '我是B组件的信息'
+                }
+            },
+            created() {
+                var _this = this;
+                this.$root.bus.$on('li',(value) => {
+                    _this.bb = value;
+                })
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                bus: new Vue()
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+</html>

@@ -26,9 +26,11 @@
                     <!-- 帖子的分类 -->
                     <span :class="[{post_good:(post.good === true),post_top:(post.top === true),topiclist_tab:(post.good != true && post.top != true)}]">{{post | tabFormatter}}</span>
                     <!-- 标题 -->
-                    <span class="post_title">
-                        <a href="#">{{post.title}}</a>
-                    </span>
+                    <router-link :to="{name: 'post_content',params:{id:post.id}}">
+                        <span class="post_title">
+                            {{post.title}}
+                        </span>
+                    </router-link>
                     <!-- 最终回复时间 -->
                     <span class="last_time">{{post.last_reply_at | formatDate}}</span>
                 </li>

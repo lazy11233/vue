@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Header/>
-    <PostList/>
+    <div class="main">
+      <PostList/>
+    </div>
   </div>
 </template>
 
@@ -26,6 +28,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+@import url('./assets/common.css');
+.main {
+  width: 80%;
+  margin: 0 auto;
+}
 </style>

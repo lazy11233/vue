@@ -36,7 +36,6 @@
         padding: 10px 15px;
     }
     a {
-        text-decoration: none;
         color: #ccc;
         font-size: 14px;
         text-shadow:nonr;

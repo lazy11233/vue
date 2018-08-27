@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤器</title>
+</head>
+<body>
+<div id="app">
+{{money | currency}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            money: 89.3
+        },
+        filters: {
+            currency(money) {
+                var strs = (money + '').split(".");
+                if(strs.length === 1){//89
+                    return money + ".00";
+                }else{
+                    if(strs[1].length === 1) {//89.3
+                        return money + '0';
+                    }else{
+                        return money;
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

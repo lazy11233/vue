@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤器</title>
+    <style>
+        .active {
+            height: 30px;
+            width: 30px;
+            background: #bfa;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    v-text: 解析文本，和{{}}作用一样：
+    <button v-text="btn"></button>
+    <hr>
+    v-html: 解析HTML,和innerHTML
+    <div v-html="btns"></div>
+    <hr>
+    v-bind: 动态更新HTML元素上的属性，如class。
+    <div v-bind:class="className"></div>
+    <hr>
+    <button v-on:click="handler">点击我弹窗</button>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            btn: '我是一个按钮',
+            btns: '<button>按钮1</button><button>按钮2</button>',
+            className: "active"
+        },
+        methods: {
+            handler() {
+                alert("click me");
+            }
+        }
+    });
+</script>
+</body>
+</html>

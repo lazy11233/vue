@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+</head>
+<body>
+<div id="app">
+{{msg}}
+<hr>
+{{6+6*3}}---进行简单的运算
+<hr>
+{{ 5>3?msg:"woqu"}} ---三目运算
+<hr>
+<!-- {{if(5>3){msg}}}---编译报错 -->
+{{var a = 6}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            msg: '我的第一个vue应用'
+        },
+    });
+</script>
+</body>
+</html>

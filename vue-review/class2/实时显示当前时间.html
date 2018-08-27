@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤器</title>
+</head>
+<body>
+<div id="app">
+当前的时间是:{{currentTime | timeFormatter}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            currentTime: new Date(),
+        },
+        filters: {
+            timeFormatter(time) {
+                var currentDate = new Date(time);
+                var year = currentDate.getFullYear();
+                var month = currentDate.getMonth() + 1;
+                var day = currentDate.getDate();
+                var hour = currentDate.getHours();
+                var min = currentDate.getMinutes() + '';
+                var sec = currentDate.getSeconds() + '';
+                min = min.length > 1 ? min : '0' + min;
+                sec = sec.length > 1 ? sec : '0' + sec;
+                return year + '年' + month + '月' + day + '日 ' +  hour + ':' + min + ':' + sec;
+            }
+        }
+    });
+    setInterval(() =>{
+        app.currentTime = new Date();
+    },1000)
+</script>
+</body>
+</html>

@@ -55,6 +55,12 @@
         created() {
             this.isLoading = true;
             this.getArticleData();
+        },
+        //检测路由发生变化
+        watch: {
+            '$route'(to,from) {
+                this.getArticleData();
+            }
         }
     }
 </script>

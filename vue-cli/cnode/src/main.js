@@ -8,13 +8,7 @@ Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
-})
+
 
 Vue.filter('formatDate', function(str) {
   if(!str) return '';
@@ -52,4 +46,12 @@ Vue.filter('tabFormatter',function(post) {
   }else {
     return '招聘';
   }
+})
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
 })

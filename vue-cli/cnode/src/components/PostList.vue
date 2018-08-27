@@ -26,7 +26,7 @@
                     <!-- 帖子的分类 -->
                     <span :class="[{post_good:(post.good === true),post_top:(post.top === true),topiclist_tab:(post.good != true && post.top != true)}]">{{post | tabFormatter}}</span>
                     <!-- 标题 -->
-                    <router-link :to="{name: 'post_content',params:{id:post.id}}">
+                    <router-link :to="{name: 'post_content',params:{id:post.id,name:post.author.loginname}}">
                         <span class="post_title">
                             {{post.title}}
                         </span>
@@ -34,13 +34,17 @@
                     <!-- 最终回复时间 -->
                     <span class="last_time">{{post.last_reply_at | formatDate}}</span>
                 </li>
+                <li>
+                    <!-- 分页 -->
+                    <pagination @handleList="renderList"></pagination>
+                </li>
             </ul>
         </div>
 
     </div>
 </template>
 <script>
-
+import pagination from './Pagination'
 export default {
   name: "PostList",
   data() {
@@ -50,6 +54,9 @@ export default {
       posts: []
     };
   },
+  components: {
+      pagination
+  },
   methods: {
       getData() {
           this.$http.get('https://cnodejs.org/api/v1/topics',{
@@ -58,12 +65,16 @@ export default {
           }).then(res => {
               this.isLoading = false;
               this.posts = res.data.data;
-              console.log(posts);
               this.currentIndex++;
           }).catch(err => {
               console.log(err);
           })
 
+      },
+      renderList(list) {
+          console.log(list);
+          this.currentIndex = list;
+          this.getData();
       }
   },
   created() {

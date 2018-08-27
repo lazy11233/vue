@@ -18,12 +18,7 @@
                     <li v-for="(reply,index) in userinfo.recent_replies" :key="index">
                         <router-link :to="{
                             name: 'post_content',
-                            params: {
-                                id: reply.id
-                            }
-                        }">
-                            {{reply.title}}
-                        </router-link>
+                            params: {id: reply.id}}">{{reply.title}}</router-link>
                     </li>
                 </ul>
             </section>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>getter和setter</title>
+</head>
+<body>
+<div id="app">
+    <div :class="bg">红色</div>
+    对象语法：
+    <div :class="{red: isRed}"></div>
+    数组语法：
+    <div :class="[class1,class2]">数组</div>
+    数组和对象混用:
+    <div :class="[{active: isRed},class2]"></div>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        bg: 'lala',
+        isRed: true,
+        class1: 'active',
+        class2: 'clearfix'
+    },
+    computed: {
+    }
+})
+</script>
+</body>
+</html>

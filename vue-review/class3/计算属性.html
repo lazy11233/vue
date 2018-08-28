@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>计算属性</title>
+</head>
+<body>
+<div id="app">
+    {{msg.split(",").reverse().join(',')}}
+    <hr>
+    {{reverMsg}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+//需求：翻转一个字符串
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: '123,456,789'
+    },
+    computed: {
+        reverMsg: function() {
+            return this.msg.split(',').reverse().join(',');
+        }
+    }
+})
+</script>
+</body>
+</html>

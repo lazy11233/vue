@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for指令</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    v-for遍历对象：
+    <ul>
+        <li v-for="(method,index) in vueMethods" :key="index">{{method.name}}</li>
+    </ul>
+    v-for遍历对象的多个属性：
+    <ul>
+        <li v-for="v in nvshen">{{v}}</li>
+    </ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        vueMethods: [
+            {name: '多思考'},
+            {name: '多练习'},
+            {name: '好好听课'}
+        ],
+        nvshen: {
+            age: 18,
+            sex: 'nv',
+            heigh: 170
+        }
+    },
+    methods: {
+    }
+})
+</script>
+</body>
+</html>

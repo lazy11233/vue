@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本指令</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <div v-for="study in arr">{{study}}</div>
+    <button @click="changeLength">直接改变数组长度</button>
+    <button @click="changeItem">直接改变数组指定项</button>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        arr: ['book','pen','pencil']   
+    },
+    methods: {
+        changeLength() {
+            this.arr.length = 1;
+        },
+        changeItem() {
+            this.arr[0] = 'alice';
+        }
+    }
+})
+    //改变数组的第一项：
+    Vue.set(app.arr,1,"π")
+</script>
+</body>
+</html>

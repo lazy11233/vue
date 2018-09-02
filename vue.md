@@ -229,7 +229,7 @@ var app = new Vue({
 ```
 ### 5.1.8 数组更新
 > * ` push ` 、 ` pop ` 、` shift ` 、` unshift `、` sort `、`  `动态修改数组后，数组会自动刷新页面上相关的数据显示。
-> ` splice() `可以添加或者删除元素（万能方法）返回删除的元素 1).index(必选)规定添加/删除项目的位置，使用负数可从数组结尾处规定位置; 2) howmany(必选)要删除的项目数量。如果设置为 0，则不会删除项目。 3) item1, ..., itemX(可选)向数组添加(多个)新项目。
+> * ` splice() `可以添加或者删除元素（万能方法）返回删除的元素 1).index(必选)规定添加/删除项目的位置，使用负数可从数组结尾处规定位置; 2) howmany(必选)要删除的项目数量。如果设置为 0，则不会删除项目。 3) item1, ..., itemX(可选)向数组添加(多个)新项目。
 
 **注意:** 直接修改数组的长度和数组中某一项并不能实时刷新页面。
 ```html
@@ -295,4 +295,187 @@ var app = new Vue({
 <input type="text" @keyup.enter="submitMe">
 ```
 * ` .13="xxx" `监听键盘事件,13表示回车
-## 7. 组件
+## 7. v-model双向绑定数据
+* ` input `和` textarea `
+```html
+v-model的用法:
+<input type="text" name="name" placeholder="用户名" v-model.lazy="msg">
+{{msg}}
+多行文本:
+<textarea name="textarea" cols="30" rows="10" v-model.lazy="textArea"></textarea>
+```
+* 单选框:
+```html
+单选框：
+<input type="radio" v-bind:checked="oneradio">
+多个单选框：<br>
+猫蛋：<input type="radio" name="gender" value="猫蛋" v-model="checkname">
+狗蛋：<input type="radio" name="gender" value="狗蛋" v-model="checkname">
+翠花：<input type="radio" name="gender" value="翠花" v-model="checkname">
+```
+多个单选框使用` v-model `绑定` value `的值
+* 多个复选框
+```html
+多个复选框：
+    <input type="checkbox" value="猫蛋" v-model="checks">猫蛋
+    <input type="checkbox" value="狗蛋" v-model="checks">狗蛋
+    <input type="checkbox" value="翠花" v-model="checks">翠花
+    现在选中的是：{{checks}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        checks: []
+    },
+    methods: {
+    }
+});
+</script>
+```
+多个复选框,如果绑定的是字符串，则会转化成true，false，与所有绑定的复选框的checked属性相对应
+### 7.2 下拉框
+* 单选的下拉框
+```html
+<select name="" id="" v-model="selected" multiple>
+    <option value="猫蛋">猫蛋</option>
+    <option value="狗蛋">狗蛋</option>
+    <option value="翠花">翠花</option>
+</select>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        selected: []
+    },
+    methods: {
+    }
+});
+</script>
+```
+单选下拉框初始化值最好是个字符串，多选下拉框初始化值只能是数组` [] `
+
+## 8. 组件
+### 8.1注册组件
+* 全局注册：
+```html
+<div id="app" v-cloak>
+    <my-component></my-component>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+Vue.component('my-component',{
+    template: '<div>我是一个组件</div>'
+})
+</script>
+```
+* 局部注册
+```javascript
+var app = new Vue({
+    el: '#app',
+    data: {
+
+    },
+    components: {
+        'app-component': {
+            template: '<div></div>'
+        }
+    }
+});
+```
+### 8.2 组件使用的奇淫技巧
+* 推荐使用小写字母加上"-"进行命名，如：` my-component `
+* template中的内容**必须**被一个DOM元素包裹，也可以嵌套
+* 在组件的定义中，除了` template `以外，还有其他选项：` data `,` computed `,` methods `
+* **组件中的data必须是一个方法**
+### 8.3 父组件给子组件传递数据
+* 通过` props `获取父组件传递的单个数据
+```html
+<div id="app" v-cloak>
+    <my-component fu="我是来自父组件中的内容"></my-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    components: {
+        'my-component': {
+            template: '<div>{{fu}}</div>',
+            props: ['fu'],
+            data() {
+                return {
+                }
+            }
+        },
+    }
+});
+</script>
+```
+### 8.4 单向数据流
+* **解释**:通过` props `传递数据时单向的，也就是父组件数据变化时会传递给子组件，但是反过来不行。
+* **目的**： 是尽可能的将父子组件解耦，避免子组件无意中修改了父组件的状态。
+* **应用场景**：
+    1. 父组件传递初始值进来，子组件将它作为初始值保存起来。(子组件中获取父组传递的数据可以直接通过` this.xxx `)获取。
+    2. 将父组件中传递进来的数据通过计算属性重新计算。
+
+```html
+<!-- 通过this.xxx获取到父组件传递进来的值。 -->
+<div id="app">
+        <my-component msg="我是父组件中的数据"></my-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            components: {
+                'my-component': {
+                    template: "<div>我是子组件<br>{{count}}</div>",
+                    props: ['msg'],
+                    data() {
+                        return {
+                            //props中的数据可以通过this.xxx直接获取》
+                            count: this.msg
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+```
+```html
+<!-- 将父组件中传递进来的数据使用计算属性 -->
+<div :style="fixWidth"></div>
+<script>
+    'width-component': {
+                    template:'<div class="box" :style="fixWidth">我是子组件{{ss}}</div>',
+                    props:['ss'],
+                    computed: {
+                        fixWidth: function () {
+                           return {
+                               width: this.ss + 'px'
+                           }
+                        }
+                    }
+                }
+</script>
+```
+### 8.5 数据验证
+` props `接受的数组形式，可以接收多个数据：
+```javascript
+props: ['title', 'likes', 'isPublished', 'commentIds', 'author']
+```
+但是，通常你希望每个 prop 都有指定的值类型。这时，你可以以对象形式列出 prop，这些属性的名称和值分别是 prop 各自的名称和类型：
+```javascript
+props: {
+  title: String,
+  likes: Number,
+  isPublished: Boolean,
+  commentIds: Array,
+  author: Object
+}
+```

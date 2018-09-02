@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            background: #bfa;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-component msg="我是父组件中的数据"></my-component>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <script>
+        //需求，通过input中输入的数据直接改变子组件div的宽度。
+        var app = new Vue({
+            el: '#app',
+            data: {
+                width: 0
+            },
+            components: {
+                'my-component': {
+                    template: "<div>我是子组件<br>{{msg}}</div>",
+                    props: {
+                        msg: String
+                    },
+                    data() {
+                        return {
+                            //props中的数据可以通过this.xxx直接获取》
+                            count: this.msg
+                        }
+                    }
+                },
+            }
+        });
+    </script>
+</body>
+</html>

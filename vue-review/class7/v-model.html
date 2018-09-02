@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本指令</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    v-model的用法:
+    <input type="text" name="name" placeholder="用户名" v-model.lazy="msg">
+    {{msg}}
+    多行文本:
+    <textarea name="textarea" cols="30" rows="10" v-model.lazy="textArea"></textarea>
+    <hr>
+    单选框：
+    <input type="radio" v-bind:checked="oneradio">
+    多个单选框：<br>
+    猫蛋：<input type="radio" name="gender" value="猫蛋" v-model="checkname">
+    狗蛋：<input type="radio" name="gender" value="狗蛋" v-model="checkname">
+    翠花：<input type="radio" name="gender" value="翠花" v-model="checkname">
+    <br>
+    现在选中的是：{{checkname}}
+    <hr>
+    单个复选框：
+    <input type="checkbox" v-bind:checked="oneradio">
+    <br>
+    多个复选框：
+    <input type="checkbox" value="猫蛋" v-model="checks">猫蛋
+    <input type="checkbox" value="狗蛋" v-model="checks">狗蛋
+    <input type="checkbox" value="翠花" v-model="checks">翠花
+    现在选中的是：{{checks}}
+    <hr>
+    <select name="" id="" v-model="selected" multiple>
+        <option value="猫蛋">猫蛋</option>
+        <option value="狗蛋">狗蛋</option>
+        <option value="翠花">翠花</option>
+    </select>
+    现在选中的是{{selected}}
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: 'Tom',
+        textArea: '我是多行文本初始化值。',
+        oneradio: true,
+        checkname: '狗蛋',
+        checks: [],
+        selected: []
+    },
+    methods: {
+    }
+});
+</script>
+</body>
+</html>

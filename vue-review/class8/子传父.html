@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父传子</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <!-- 需求：通过+ 和- 来给父组件传递数据 -->
+    银行卡余额：{{total}}
+    <my-component @changetotal="handleTotal"></my-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        total: 1000
+    },
+    methods: {
+        handleTotal(value) {
+            this.total = value;
+        }
+    },
+    components: {
+        'my-component': {
+            template: '<div><button @click="handleIncrease">+1000</button><button @click="handleReduce">-1000</button>{{count}}</div>',
+            data() {
+                return {
+                    count: 1000
+                }
+            },
+            methods:{
+                handleIncrease() {
+                    this.count += 1000;
+                    this.$emit('changetotal',this.count);
+                },
+                handleReduce() {
+                    this.count -= 1000;
+                    this.$emit('changetotal',this.count);   
+                }
+            }
+        },
+    }
+});
+</script>
+</body>
+</html>

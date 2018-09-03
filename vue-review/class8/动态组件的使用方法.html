@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件的使用方法</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        #a {
+            background: pink;
+        }
+        #b {
+            background: #bfa;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <component :is="thisView"></component>
+    <button @click="oneView('a')">a</button>
+    <button @click="oneView('b')">b</button>
+    <button @click="oneView('c')">c</button>
+    <button @click="oneView('d')">d</button>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        thisView: 'a-component'
+    },
+    methods: {
+        oneView(tag) {
+            this.thisView = tag + '-component';
+        }
+    },
+    components: {
+        'a-component': {
+            template: '<div>离离原上草</div>'
+        },
+        'b-component': {
+            template: '<div>一岁一枯荣</div>'
+        },
+        'c-component': {
+            template: '<div>野火烧不尽</div>'
+        },
+        'd-component': {
+            template: '<div>春风吹又生</div>'
+        }
+       
+    },
+
+});
+</script>
+</body>
+</html>

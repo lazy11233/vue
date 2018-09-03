@@ -479,3 +479,250 @@ props: {
   author: Object
 }
 ```
+### 8.6 子组件给父组件传递数据
+JavaScript中的设计模式--观察者模式，dispatchEvent和addEventListener这两个方法。Vue组件也有与之类似的一套模式，子组件使用` $emit `来触发事件，父组件使用` $on `来监听子组件的事件。
+
+子传父时，先要自定义一个事件。比如` changetotal `，（**注意:**自定义事件只能使用全部小写或者中横线命名，不要使用驼峰），子组件自己触发这个事件，并传入值` this.$emit("changetotal",argument) `。在父组件中监听这个自定义事件` this.$on("changetotal",value) `。
+```html
+<div id="app" v-cloak>
+    <!-- 需求：通过+ 和- 来给父组件传递数据 -->
+    银行卡余额：{{total}}
+    <my-component @changetotal="handleTotal"></my-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        total: 1000
+    },
+    methods: {
+        handleTotal(value) {
+            this.total = value;
+        }
+    },
+    components: {
+        'my-component': {
+            template: '<div><button @click="handleIncrease">+1000</button><button @click="handleReduce">-1000</button>{{count}}</div>',
+            data() {
+                return {
+                    count: 1000
+                }
+            },
+            methods:{
+                handleIncrease() {
+                    this.count += 1000;
+                    this.$emit('changetotal',this.count);
+                },
+                handleReduce() {
+                    this.count -= 1000;
+                    this.$emit('changetotal',this.count);   
+                }
+            }
+        },
+    }
+});
+</script>
+```
+### 8.7 非父子组件间的通信
+首先，在父组件中定义一个bus：
+```JavaScript
+var app = new Vue({
+    el: '#app',
+    data: {
+        bus: new Vue(),
+    }
+})
+```
+假设a组件传递数据给b组件，a组件点击按钮触发传递数据，b组件中要在` created `实例创建时监听对应的事件。
+```javascript
+'a-component': {
+    template: '<div id="a"><button @click="handle">传给b</button></div>',
+
+    data() {
+        return {
+            aaa: '我是a的内容'
+        }
+    },
+    methods: {
+        handle() {
+            this.$root.bus.$emit('lala',this.aaa)
+        }
+    },
+
+}
+'b-component': {
+    template: '<div id="b">{{bbb}}</div>',
+    data() {
+        return {
+            bbb: '我是b中的内容'
+        }
+    },
+    created() {
+        //在b组件创建实例时就监听事件---lala事件。
+        this.$root.bus.$on("lala",(value) => {
+            this.bbb = value;
+        })
+    }
+}
+```
+完整实例：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>非父子组件间的通信</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        #a {
+            background: pink;
+        }
+        #b {
+            background: #bfa;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <a-component></a-component>
+    <b-component></b-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        bus: new Vue(),//bus中介
+    },
+    methods: {
+        handleTotal(value) {
+            this.total = value;
+        }
+    },
+    components: {
+        'a-component': {
+            template: '<div id="a"><button @click="handle">传给b</button></div>',
+
+            data() {
+                return {
+                    aaa: '我是a的内容'
+                }
+            },
+            methods: {
+                handle() {
+                    this.$root.bus.$emit('lala',this.aaa)
+                }
+            },
+
+        },
+        'b-component': {
+            template: '<div id="b">{{bbb}}</div>',
+            data() {
+                return {
+                    bbb: '我是b中的内容'
+                }
+            },
+            created() {
+                //在b组件创建实例时就监听事件---lala事件。
+                this.$root.bus.$on("lala",(value) => {
+                    this.bbb = value;
+                })
+            }
+        },
+    },
+});
+</script>
+</body>
+</html>
+```
+### 8.8 通过插槽分发内容
+为了组件可以组合，我们需要一种方法来混合父组件的内容与子组件自己的模板。这个过程被称为内容分发。插槽就是为了弥补组件的不足。Vue.js实现了一个内容分发api，使用特殊的` slot `元素作为原始内容的插槽。
+#### 8.8.1 插槽的用法
+在父组件的作用域内直接写入子组件的标签体中，在子组件模板中写入slot。单个插槽的用法。
+```html
+<my-component>
+    <p>{{msg}}</p>
+</my-component>
+    
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: '我是插入子组件中的内容'
+    },
+    methods: {
+    },
+    components: {
+        'my-component' : {
+            template:  '<div>子组件\
+                            <slot>如果父组件中没有插入内容，我就作为默认出现</slot>\
+                        </div>'
+        }
+    },
+    created() {
+
+    }
+});
+</script>
+```
+#### 8.8.2 具名插槽
+给slot命名，这样我们在父组件中指定slot，就能在指定slot渲染出内容。
+```html
+<div id="app" v-cloak>
+    <name-component>
+        <h3 slot="header">我是标题</h3>
+        <p slot="container">我是正文内容</p>
+        <p slot="footer">底部信息</p>
+    </name-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: '我是插入子组件中的内容'
+    },
+    methods: {
+    },
+    components: {
+        'name-component' : {
+            template:  
+        '<div>子组件\
+                <slot name="header"></slot>\
+                <slot name="container"></slot>\
+                <slot name="footer"></slot>\
+        </div>'
+        }
+    },
+});
+</script>
+```
+#### 8.8.3 访问` slot `
+通过` this.$slots.slog-name `访问对应的slot。
+
+
+#### 8.8.4 动态组件
+Vue.js给我们提供了一个元素叫` component `,用来动态挂载不同的组件。
+实现：使用is特性来实现。
+```html
+<component :is="thisView"></component>
+```
+## 9 自定义指令
+```javascript
+var app = new Vue({
+    el: '#app',
+    directives: {
+        'focus': {
+            inserted: function(el) {
+                el.focus();
+            }
+        }
+    }
+})
+```

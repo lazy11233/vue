@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>非父子组件间的通信</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        #a {
+            background: pink;
+        }
+        #b {
+            background: #bfa;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <a-component></a-component>
+    <b-component></b-component>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        bus: new Vue(),//bus中介
+    },
+    methods: {
+        handleTotal(value) {
+            this.total = value;
+        }
+    },
+    components: {
+        'a-component': {
+            template: '<div id="a"><button @click="handle">传给b</button></div>',
+
+            data() {
+                return {
+                    aaa: '我是a的内容'
+                }
+            },
+            methods: {
+                handle() {
+                    this.$root.bus.$emit('lala',this.aaa)
+                }
+            },
+
+        },
+        'b-component': {
+            template: '<div id="b">{{bbb}}</div>',
+            data() {
+                return {
+                    bbb: '我是b中的内容'
+                }
+            },
+            created() {
+                //在b组件创建实例时就监听事件---lala事件。
+                this.$root.bus.$on("lala",(value) => {
+                    this.bbb = value;
+                })
+            }
+        },
+    },
+    created() {
+
+    }
+});
+</script>
+</body>
+</html>
